@@ -3,6 +3,7 @@ from django import http
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import Context
+from django.template import Template
 from google.appengine.api import memcache
 from google.appengine.api import urlfetch
 from xml.dom import minidom
@@ -50,9 +51,9 @@ def tweet(request, tweet_id):
 	if tweet is None:
 		tweet = Tweet.by_tweet_id(int(tweet_id)).next(1)
 		if len(tweet) == 0:
-			response = HttpResponse('<?xml version="1.0" encoding="UTF-8"?><error>Not Found</error>', mimetype="text/xml")
-			response['Status'] = 404
-			return response
+			t = Template('<?xml version="1.0" encoding="UTF-8"?><error>Not Found</error>')
+			xml = t.render(Context())
+			return http.HttpResponseNotFound(xml)
 		else:
 			memcache.add(tweet_id, tweet)
 	t = get_template('tweet.xml')
