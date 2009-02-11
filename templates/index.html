@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}twelección &ndash; tú decides. tú comentas.{% endblock %}
+
+
+{% block content %}
+			<div id="about">
+				<h2>¿Quieres participar?</h2>
+				<p><a href="https://twitter.com/signup">Crea tu cuenta</a> en <a href="http://twitter.com">Twitter</a> y envía lo que desees. Sólo debes asegurarte de incluir <strong>#15f</strong> o <strong>#15F</strong> en tu mensaje para que aparezca aquí. Los mensajes pueden tardar un par de minutos en aparecer.</p>
+	
+				<p>Desarrollado por <a href="http://www.gesteves.com">Guillermo Esteves</a>.</p>
+				
+				<p>¿Dudas, comentarios o sugerencias? <a href="http://twitter.com/home?status=@gesteves%20">Contáctame</a>.</p>
+				
+				<p class="gae">Powered by Google App Engine.</p>
+
+				<p class="notes">Ojo: Twelección no se responsabiliza por el contenido de los mensajes.</p>
+				
+				
+			</div>
+			<div id="tweets">
+				<h2>Últimos mensajes acerca del #15F <span class="loading" style="display:none;">Esperando por más tweets&hellip;</span></h2>
+			<ul>
+				{% for t in tweets %}
+				<li id="t_{{t.tweet_id}}"><a href="{{t.author_uri}}" class="author">{{ t.author }}</a> {{ t.content|safe }} <span class="meta"><a href="{{t.uri}}">A las {{ t.published_ve|date:"g:i a" }}</a></span></li>
+				{% endfor %}
+			</ul>
+			</div>
+{% endblock %}

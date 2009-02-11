@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+{% for t in tweets %}
+	{{ t.to_xml|safe }}
+{% endfor %}
+</entities>
