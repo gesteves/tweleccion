@@ -20,7 +20,7 @@ b {
 html {
 	font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Calibri, Arial, sans-serif;
 	font-weight:300;
-	background:#edf1f9;
+	background:#e0e6f5;
 }
 
 h1 {
@@ -80,7 +80,7 @@ ul {
 	line-height:1.5;
 	width:540px;
 	float:left;
-	background:#edf1f9;
+	background:#e0e6f5;
 	padding:1.5em 30px 1.5em 30px;
 	margin:1.5em 0;
 	-webkit-border-radius:5px;
