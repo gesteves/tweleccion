@@ -1,0 +1,26 @@
+<div id="tweets">
+	<h2>Últimos mensajes acerca del #15F <span class="loading" style="display:none;">Esperando por más tweets&hellip;</span></h2>
+<ul>
+	{% for t in tweets %}
+	<li id="t_{{t.tweet_id}}" class="hentry"><span class="vcard author"><a href="{{t.author_uri}}" class="fn url">{{ t.author }}</a></span> <span class="entry-title">{{ t.content|safe }}</span><br/><span class="meta">A las <abbr class="published" title="{{ t.published_ve|date:"Ymd\TG:i:s" }}" >{{ t.published_ve|date:"g:i a" }}</abbr> &middot; <a href="http://twitter.com/home?status=@{{ t.author }}%20&amp;in_reply_to_status_id={{ t.tweet_id }}&amp;in_reply_to={{ t.author }}">Responder</a> &middot; <a href="{{t.uri}}" rel="bookmark">Ver tweet</a></span></li>
+	{% endfor %}
+</ul>
+</div>
+
+<div id="about">
+	<h3 class="side1">¿Qué es esto?</h3>
+	<p>twelección recoje todos los mensajes (o &ldquo;tweets&rdquo;) enviados por los usuarios de <a href="http://twitter.com">Twitter</a> acerca las elecciones en Venezuela, este Domingo 15 de febrero.</p>
+	
+	<h3 class="side2">¿Quieres participar?</h3>
+	<p><a href="https://twitter.com/signup">Crea tu cuenta</a> en <a href="http://twitter.com">Twitter</a> y envía lo que desees. Sólo debes asegurarte de incluir <strong>#15f</strong> o <strong>#15F</strong> en el texto de tu mensaje para que aparezca aquí. Los mensajes pueden tardar un par de minutos en aparecer.</p>
+				
+	<p>¿Dudas, comentarios o sugerencias? <a href="http://twitter.com/home?status=@gesteves%20">Contáctame</a>.</p>
+	
+	<h3 class="side3">Advertencia</h3>
+	<p>Los mensajes que aparecen aquí son enviados por los usuarios de <a href="http://twitter.com">Twitter</a>. twelección no se hace responsable por el contenido de los mismos.</p>
+
+	<p class="by">Desarrollado por <a href="http://www.gesteves.com">Guillermo Esteves</a>.</p>
+	<p class="gae">Powered by Google App Engine.</p>
+				
+				
+</div>

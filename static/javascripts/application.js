@@ -72,7 +72,7 @@ function showTweet(tweet) {
 	a = $('<a>Responder</a>').attr({href: reply});
 	span.append(a);
 	span.append(" &middot; ");
-	a = $('<a>Ver tweet</a>').attr({href: uri});
+	a = $('<a rel="bookmark">Ver tweet</a>').attr({href: uri});
 	span.append(a);
 	li.append(span);
 	$('ul').prepend(li);

@@ -10,6 +10,7 @@ from xml.dom import minidom
 from models import *
 from datetime import datetime
 import re
+import urlparse
 
 def fetch_tweets(request):
 	latest = Tweet.last()
@@ -66,13 +67,26 @@ def first(request):
 	return HttpResponse(tweet.to_xml(), mimetype="text/xml")
 
 def index(request):
-	response = memcache.get("index")
+	bits = urlparse.urlsplit(request.META['HTTP_HOST'])[0].split('.')
+	subdomain = bits[0]	
+	if subdomain == "m":
+		return mobile(request)
+	else:
+		response = memcache.get("index")
+		if response is None:
+			tweets = Tweet.latest(20, 0)
+			response = render_to_response("index.html", {'tweets': tweets})
+			memcache.add("index", response, 60)
+		return response
+
+def mobile(request):
+	response = memcache.get("mobile")
 	if response is None:
 		tweets = Tweet.latest(20, 0)
-		response = render_to_response("index.html", {'tweets': tweets})
-		memcache.add("index", response, 300)
+		response = render_to_response("mobile-index.html", {'tweets': tweets})
+		memcache.add("mobile", response, 60)
 	return response
-	
+
 def redirect_to_search(request):
 	return http.HttpResponsePermanentRedirect("http://search.twitter.com/search?" + request.GET.urlencode())
 	
