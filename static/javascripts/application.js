@@ -47,14 +47,26 @@ function showTweet(tweet) {
 	var author_uri = tweet.find("property[name='author_uri'] link").attr("href");
 	var uri = tweet.find("property[name='uri'] link").attr("href");
 	var published = tweet.find("property[name='published_ve']").text();
-	var a = $('<a class="author"></a>').attr({href: author_uri});
+	
+	var li = $('<li style="display:none;" class="hentry"></li>').attr({id: "t_" + tweet_id });
+	var vcard = $('<span class="vcard author"></span>');
+	var title = $('<span class="entry-title"></span>');
+	var abbr = $('<abbr class="published"></abbr>');
+	
+	var a = $('<a class="fn url"></a>').attr({href: author_uri});
 	a.append(author);
-	var li = $('<li style="display:none;"></li>').attr({id: "t_" + tweet_id });
-	li.append(a);
+	vcard.append(a);
+	
+	title.append(content);
+	
+	li.append(vcard);
 	li.append(" ");
-	li.append(content);
+	li.append(title);
 	var span = $('<br/><span class="meta">A las </span>');
-	span.append(time(published));
+	
+	abbr.append(time(published));
+	abbr.attr({title: iso8601(published)});
+	span.append(abbr);
 	span.append(" &middot; ");
 	var reply = "http://twitter.com/home?status=@"+author+"%20&in_reply_to_status_id="+tweet_id+"&in_reply_to=" + author;
 	a = $('<a>Responder</a>').attr({href: reply});
@@ -85,4 +97,15 @@ function time(date) {
 		ampm = "p.m.";
 	}
 	return hours+":"+minutes+" "+ampm;
+}
+
+function iso8601(date) {
+//	2009-02-10 20:51:46
+	var year = date.substring(0,4);
+	var month = date.substring(5,7);
+	var day = date.substring(8,10);
+	var hours = date.substring(11,13);
+	var minutes = date.substring(14,16);
+	var seconds = date.substring(17,19);
+	return year+month+day+"T"+hours+":"+minutes+":"+seconds
 }
