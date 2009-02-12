@@ -53,10 +53,14 @@ function showTweet(tweet) {
 	li.append(a);
 	li.append(" ");
 	li.append(content);
-	li.append(" ");
-	var span = $('<span class="meta"></span>');
-	a = $('<a>A las </a>').attr({href: uri});
-	a.append(time(published));
+	var span = $('<br/><span class="meta">A las </span>');
+	span.append(time(published));
+	span.append(" &middot; ");
+	var reply = "http://twitter.com/home?status=@"+author+"%20&in_reply_to_status_id="+tweet_id+"&in_reply_to=" + author;
+	a = $('<a>Responder</a>').attr({href: reply});
+	span.append(a);
+	span.append(" &middot; ");
+	a = $('<a>Ver tweet</a>').attr({href: uri});
 	span.append(a);
 	li.append(span);
 	$('ul').prepend(li);

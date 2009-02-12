@@ -47,7 +47,7 @@ class Tweet(db.Model):
 		return results
 		
 	@staticmethod
-	def latest(number):
+	def latest(number, offset):
 		query = db.Query(Tweet)
-		results = query.order('-tweet_id').fetch(number)
+		results = query.order('-tweet_id').fetch(number, offset)
 		return results

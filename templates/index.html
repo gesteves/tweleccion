@@ -8,7 +8,7 @@
 	<h2>Últimos mensajes acerca del #15F <span class="loading" style="display:none;">Esperando por más tweets&hellip;</span></h2>
 <ul>
 	{% for t in tweets %}
-	<li id="t_{{t.tweet_id}}"><a href="{{t.author_uri}}" class="author">{{ t.author }}</a> {{ t.content|safe }}<br/><span class="meta"><a href="{{t.uri}}">A las {{ t.published_ve|date:"g:i a" }}</a></span></li>
+	<li id="t_{{t.tweet_id}}"><a href="{{t.author_uri}}" class="author">{{ t.author }}</a> {{ t.content|safe }}<br/><span class="meta">A las {{ t.published_ve|date:"g:i a" }} &middot; <a href="http://twitter.com/home?status=@{{ t.author }}%20&amp;in_reply_to_status_id={{ t.tweet_id }}&amp;in_reply_to={{ t.author }}">Responder</a> &middot; <a href="{{t.uri}}">Ver tweet</a> </span></li>
 	{% endfor %}
 </ul>
 </div>
