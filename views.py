@@ -81,6 +81,15 @@ def not_found(request):
 	html = t.render(Context())
 	return http.HttpResponseNotFound(html)
 	
+def sitemap(request):
+	response = memcache.get("sitemap")
+	if response is None:
+		latest = Tweet.last()
+		response = render_to_response('sitemap.xml', {'tweet': latest})
+		response['Content-Type'] = "text/xml"
+		memcache.add("sitemap", response, 3600)
+	return response
+	
 	
 	
 	
