@@ -180,10 +180,24 @@ p.notes {
 }
 
 p.gae {
-	padding-top:30px;
-	border-top:1px dotted #ccc;
+	width:120px;
+	height:30px;
+	display:block;
+	margin:0 auto;
 	text-indent:-10000px;
-	background:url('/static/images/appengine-noborder-120x30.gif') center 24px no-repeat;
+	background:url('/static/images/appengine-noborder-120x30.gif') center top no-repeat;
+}
+
+p.by {
+	text-align:center;
+	border-top:1px dotted #ccc;
+	margin:0;
+	padding-top:1.5em;
+}
+
+
+.adsense {
+	padding:0 10px;
 }
 
 
