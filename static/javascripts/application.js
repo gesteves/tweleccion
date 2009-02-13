@@ -4,6 +4,7 @@ $(document).ready(function() {
 
 function initjQuery() {
 	getNextTweet();
+	$("p#more a").click(getPreviousTweets);
 }
 
 function getTweet(url) {
@@ -22,10 +23,13 @@ function getTweet(url) {
 			
 			for (var i = 0; i < times; i++) {
 				var tweet = $(entities[i]);
-				showTweet(tweet);
+				var li = buildTweet(tweet)
+				$('ul').prepend(li);
+				li.fadeIn(1000);
+				pageTracker._trackEvent('Tweet', 'View', url);
 			}
 			
-			setTimeout("getNextTweet()", 3000);
+			setTimeout("getNextTweet()", 2000);
 			
 		}
 	});
@@ -40,7 +44,47 @@ function getNextTweet() {
 	
 }
 
-function showTweet(tweet) {
+function getPreviousTweets(event) {
+	event.preventDefault();
+	$('p#more').empty();
+	$('p#more').html('<span class="loading">Cargando más tweets&hellip;</span>');
+	var id = $('ul li:last-child').attr("id");
+	if (id) {
+		id = id.substring(2, id.length);
+		 $.ajax({
+			type: "GET",
+			url: "/tweets/"+id+"/previous",
+			dataType: "xml",
+			error: function(xhr, desc, exceptionobj) {
+				$('img.spinner').remove();
+				$('#p').show();
+			},
+			success: function(xml) {
+				var entities = $(xml).find("entities").children();
+				var times = entities.length;
+				var i = 0;
+				for (i; i < times; i++) {
+					var tweet = $(entities[i]);
+					var li = buildTweet(tweet)
+					$('ul').append(li);
+					li.fadeIn(1000);
+				} //end for
+				
+				if (i == 5) {
+					$('p#more').empty();
+					$('p#more').html('<a href="#">Ver tweets anteriores</a>');
+					$("p#more a").click(getPreviousTweets);
+				} else {
+					$('p#more').empty();
+					$('p#more').html('No hay más tweets.');
+				}
+
+			} // end sucess
+		}); //and ajax
+	} // end if
+} // end function
+
+function buildTweet(tweet) {
 	var content = tweet.find("property[name='content']").text();
 	var tweet_id = tweet.find("property[name='tweet_id']").text();
 	var author = tweet.find("property[name='author']").text();
@@ -75,9 +119,7 @@ function showTweet(tweet) {
 	a = $('<a rel="bookmark">Ver tweet</a>').attr({href: uri});
 	span.append(a);
 	li.append(span);
-	$('ul').prepend(li);
-	li.fadeIn(1000);
-	pageTracker._trackEvent('Tweet', 'View', tweet_id);
+	return li;
 }
 
 function time(date) {

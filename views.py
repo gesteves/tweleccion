@@ -15,10 +15,8 @@ def fetch_tweets(request):
 	latest = Tweet.last()
 	if latest is None:
 		url = "http://search.twitter.com/search.atom?q=%2315f&rpp=100"
-		#url = "http://search.twitter.com/search.atom?q=iphone&rpp=100"
 	else:
 		url = "http://search.twitter.com/search.atom?q=%2315f&rpp=100&since_id=" + str(latest.tweet_id)
-		#url = "http://search.twitter.com/search.atom?q=iphone&rpp=100&since_id=" + str(latest.tweet_id)
 	fetch_xml(url)
 	return HttpResponse("OK")
 
@@ -46,7 +44,7 @@ def parse_tweets(xml):
 			tweet.put()
 
 
-def tweet(request, tweet_id):
+def next(request, tweet_id):
 	tweet = memcache.get(tweet_id)
 	if tweet is None:
 		tweet = Tweet.by_tweet_id(int(tweet_id)).next(1)
@@ -57,8 +55,23 @@ def tweet(request, tweet_id):
 		else:
 			memcache.add(tweet_id, tweet)
 	t = get_template('tweet.xml')
-	html = t.render(Context({'tweets': tweet}))
-	response = HttpResponse(html, mimetype="text/xml")
+	xml = t.render(Context({'tweets': tweet}))
+	response = HttpResponse(xml, mimetype="text/xml")
+	return response
+	
+def previous(request, tweet_id):
+	tweet = memcache.get(tweet_id+"-previous")
+	if tweet is None:
+		tweet = Tweet.by_tweet_id(int(tweet_id)).previous(5)
+		if len(tweet) == 0:
+			t = Template('<?xml version="1.0" encoding="UTF-8"?><error>Not Found</error>')
+			xml = t.render(Context())
+			return http.HttpResponseNotFound(xml)
+		else:
+			memcache.add(tweet_id+"-previous", tweet)
+	t = get_template('tweet.xml')
+	xml = t.render(Context({'tweets': tweet}))
+	response = HttpResponse(xml, mimetype="text/xml")
 	return response
 
 def first(request):
@@ -76,6 +89,14 @@ def index(request):
 			response = render_to_response("index.html", {'tweets': tweets})
 			memcache.add("index", response, 60)
 		return response
+
+def index2(request):
+	response = memcache.get("index")
+	if response is None:
+		tweets = Tweet.latest(20, 0)
+		response = render_to_response("index.html", {'tweets': tweets})
+		memcache.add("index", response, 60)
+	return response
 
 def mobile(request):
 	response = memcache.get("mobile")
