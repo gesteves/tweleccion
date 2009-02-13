@@ -10,7 +10,6 @@ from xml.dom import minidom
 from models import *
 from datetime import datetime
 import re
-import urlparse
 
 def fetch_tweets(request):
 	latest = Tweet.last()
@@ -67,8 +66,7 @@ def first(request):
 	return HttpResponse(tweet.to_xml(), mimetype="text/xml")
 
 def index(request):
-	bits = urlparse.urlsplit(request.META['HTTP_HOST'])[0].split('.')
-	subdomain = bits[0]	
+	subdomain = request.META['HTTP_HOST'].split('.')[0]
 	if subdomain == "m":
 		return mobile(request)
 	else:
