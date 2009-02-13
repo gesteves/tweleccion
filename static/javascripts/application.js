@@ -7,39 +7,35 @@ function initjQuery() {
 	$("p#more a").click(getPreviousTweets);
 }
 
-function getTweet(url) {
-	 $.ajax({
-		type: "GET",
-		url: "/tweets/"+url,
-		dataType: "xml",
-		error: function(xhr, desc, exceptionobj) {
-			$('span.loading').show();
-			setTimeout("getNextTweet()", 30000);
-		},
-		success: function(xml) {
-			$('span.loading').hide();
-			var entities = $(xml).find("entities").children();
-			var times = entities.length;
-			
-			for (var i = 0; i < times; i++) {
-				var tweet = $(entities[i]);
-				var li = buildTweet(tweet)
-				$('ul').prepend(li);
-				li.fadeIn(1000);
-				pageTracker._trackEvent('Tweet', 'View', url);
-			}
-			
-			setTimeout("getNextTweet()", 2000);
-			
-		}
-	});
-}
-
 function getNextTweet() {
 	var id = $('ul li:first-child').attr("id");
 	if (id) {
 		id = id.substring(2, id.length);
-		getTweet(id);
+		 $.ajax({
+			type: "GET",
+			url: "/tweets/"+id,
+			dataType: "xml",
+			error: function(xhr, desc, exceptionobj) {
+				$('span.loading').show();
+				setTimeout("getNextTweet()", 30000);
+			},
+			success: function(xml) {
+				$('span.loading').hide();
+				var entities = $(xml).find("entities").children();
+				var times = entities.length;
+
+				for (var i = 0; i < times; i++) {
+					var tweet = $(entities[i]);
+					var li = buildTweet(tweet)
+					$('ul').prepend(li);
+					li.fadeIn(1000);
+					pageTracker._trackEvent('Tweet', 'View', id);
+				}
+
+				setTimeout("getNextTweet()", 2000);
+
+			}
+		});
 	}
 	
 }
@@ -56,8 +52,9 @@ function getPreviousTweets(event) {
 			url: "/tweets/"+id+"/previous",
 			dataType: "xml",
 			error: function(xhr, desc, exceptionobj) {
-				$('img.spinner').remove();
-				$('#p').show();
+				$('p#more').empty();
+				$('p#more').html('<a href="#">Ver tweets anteriores</a>');
+				$("p#more a").click(getPreviousTweets);
 			},
 			success: function(xml) {
 				var entities = $(xml).find("entities").children();
@@ -65,9 +62,10 @@ function getPreviousTweets(event) {
 				var i = 0;
 				for (i; i < times; i++) {
 					var tweet = $(entities[i]);
-					var li = buildTweet(tweet)
+					var li = buildTweet(tweet);
 					$('ul').append(li);
 					li.fadeIn(1000);
+					pageTracker._trackEvent('Tweet', 'Previous', id);
 				} //end for
 				
 				if (i == 5) {
@@ -106,7 +104,7 @@ function buildTweet(tweet) {
 	li.append(vcard);
 	li.append(" ");
 	li.append(title);
-	var span = $('<br/><span class="meta">A las </span>');
+	var span = $('<span class="meta">A las </span>');
 	
 	abbr.append(time(published));
 	abbr.attr({title: iso8601(published)});
@@ -118,7 +116,9 @@ function buildTweet(tweet) {
 	span.append(" &middot; ");
 	a = $('<a rel="bookmark">Ver tweet</a>').attr({href: uri});
 	span.append(a);
+	li.append('<br/>');
 	li.append(span);
+	
 	return li;
 }
 
