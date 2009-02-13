@@ -3,7 +3,14 @@
 
 
 {% block content %}
+<h2>Últimos mensajes acerca del #15F</h2>
+<div id="tweets">
+	{% include 'tweets.html' %}
+</div>
 
-{% include 'content.html' %}
+
+<div id="about">
+	{% include 'about.html' %}
+</div>
 
 {% endblock %}
