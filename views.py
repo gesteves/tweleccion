@@ -85,7 +85,7 @@ def index(request):
 	else:
 		response = memcache.get("index")
 		if response is None:
-			tweets = Tweet.latest(20, 0)
+			tweets = Tweet.latest(20, 300)
 			response = render_to_response("index.html", {'tweets': tweets})
 			memcache.add("index", response, 60)
 		return response
