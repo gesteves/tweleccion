@@ -122,6 +122,7 @@ def sitemap(request):
 		response['Content-Type'] = "text/xml"
 		memcache.add("sitemap", response, 3600)
 	return response
+
 	
 	
 	
