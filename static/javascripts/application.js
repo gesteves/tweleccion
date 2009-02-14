@@ -28,7 +28,7 @@ function getNextTweet() {
 					var tweet = $(entities[i]);
 					var li = buildTweet(tweet)
 					$('ul').prepend(li);
-					li.fadeIn(1000);
+					li.slideDown(1000);
 					pageTracker._trackEvent('Tweet', 'View', id);
 				}
 

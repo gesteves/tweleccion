@@ -1,7 +1,7 @@
 
 $(document).ready(function(){initjQuery();});function initjQuery(){getNextTweet();$("p#more a").click(getPreviousTweets);}
 function getNextTweet(){var id=$('ul li:first-child').attr("id");if(id){id=id.substring(2,id.length);$.ajax({type:"GET",url:"/tweets/"+id,dataType:"xml",error:function(xhr,desc,exceptionobj){$('span.loading').show();setTimeout("getNextTweet()",10000);},success:function(xml){$('span.loading').hide();var entities=$(xml).find("entities").children();var times=entities.length;for(var i=0;i<times;i++){var tweet=$(entities[i]);var li=buildTweet(tweet)
-$('ul').prepend(li);li.fadeIn(1000);pageTracker._trackEvent('Tweet','View',id);}
+$('ul').prepend(li);li.slideDown(1000);pageTracker._trackEvent('Tweet','View',id);}
 setTimeout("getNextTweet()",2000);}});}}
 function getPreviousTweets(event){event.preventDefault();$('p#more').empty();$('p#more').html('<span class="loading">Cargando más tweets&hellip;</span>');var id=$('ul li:last-child').attr("id");if(id){id=id.substring(2,id.length);$.ajax({type:"GET",url:"/tweets/"+id+"/previous",dataType:"xml",error:function(xhr,desc,exceptionobj){$('p#more').empty();$('p#more').html('<a href="#">Ver tweets anteriores</a>');$("p#more a").click(getPreviousTweets);},success:function(xml){var entities=$(xml).find("entities").children();var times=entities.length;var i=0;for(i;i<times;i++){var tweet=$(entities[i]);var li=buildTweet(tweet);$('ul').append(li);li.fadeIn(1000);pageTracker._trackEvent('Tweet','Previous',id);}
 if(i==5){$('p#more').empty();$('p#more').html('<a href="#">Ver tweets anteriores</a>');$("p#more a").click(getPreviousTweets);}else{$('p#more').empty();$('p#more').html('No hay más tweets.');}}});}}
