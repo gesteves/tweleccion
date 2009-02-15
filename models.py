@@ -35,6 +35,10 @@ class Tweet(db.Model):
 		query = db.Query(Tweet)
 		return query.filter("tweet_id >", self.tweet_id).order('tweet_id').fetch(number)
 		
+	def next(self):
+		query = db.Query(Tweet)
+		return query.filter("tweet_id >", self.tweet_id).order('tweet_id').fetch(100)
+		
 	def previous(self, number):
 		query = db.Query(Tweet)
 		return query.filter("tweet_id <", self.tweet_id).order('-tweet_id').fetch(number)

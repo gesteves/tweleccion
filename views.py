@@ -45,7 +45,7 @@ def parse_tweets(xml):
 def next(request, tweet_id):
 	tweet = memcache.get(tweet_id)
 	if tweet is None:
-		tweet = Tweet.by_tweet_id(int(tweet_id)).next(1)
+		tweet = Tweet.by_tweet_id(int(tweet_id)).next()
 		if len(tweet) == 0:
 			t = Template('<?xml version="1.0" encoding="UTF-8"?><error>Not Found</error>')
 			xml = t.render(Context())

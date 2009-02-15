@@ -15,10 +15,6 @@ function getNextTweet() {
 			type: "GET",
 			url: "/tweets/"+id,
 			dataType: "xml",
-			error: function(xhr, desc, exceptionobj) {
-				$('span.loading').show();
-				setTimeout("getNextTweet()", 30000);
-			},
 			success: function(xml) {
 				$('span.loading').hide();
 				var entities = $(xml).find("entities").children();
@@ -32,8 +28,11 @@ function getNextTweet() {
 					pageTracker._trackEvent('Tweet', 'View', id);
 				}
 
-				setTimeout("getNextTweet()", 2000);
 
+			},
+			complete: function() {
+				$('span.loading').show();
+				setTimeout("getNextTweet()", 30000);
 			}
 		});
 	}
