@@ -51,7 +51,7 @@ def next(request, tweet_id):
 			xml = t.render(Context())
 			return http.HttpResponseNotFound(xml)
 		else:
-			memcache.add(tweet_id, tweet)
+			memcache.add(tweet_id, tweet, 60)
 	t = get_template('tweet.xml')
 	xml = t.render(Context({'tweets': tweet}))
 	response = HttpResponse(xml, mimetype="text/xml")
