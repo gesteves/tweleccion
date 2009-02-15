@@ -95,6 +95,7 @@ ul li {
 	padding:1.5em 30px 1.5em 30px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
+	overflow:hidden;
 }
 
 p#more {
