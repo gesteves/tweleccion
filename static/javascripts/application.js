@@ -17,7 +17,7 @@ function getNextTweet() {
 			dataType: "xml",
 			error: function(xhr, desc, exceptionobj) {
 				$('span.loading').show();
-				setTimeout("getNextTweet()", 10000);
+				setTimeout("getNextTweet()", 30000);
 			},
 			success: function(xml) {
 				$('span.loading').hide();

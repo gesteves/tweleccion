@@ -38,10 +38,8 @@ def parse_tweets(xml):
 		t = re.search('(?<=:)\d+', tweet_id)
 		tweet_id = int(t.group(0))
 		author = author.split(" ")[0]
-		tweet = Tweet.by_tweet_id(int(tweet_id))
-		if tweet is None:
-			tweet = Tweet(tweet_id = tweet_id, uri = uri, author = author, author_uri = author_uri, title = title, content = content, published = datetime.strptime(published, '%Y-%m-%dT%H:%M:%SZ'))
-			tweet.put()
+		tweet = Tweet(tweet_id = tweet_id, uri = uri, author = author, author_uri = author_uri, title = title, content = content, published = datetime.strptime(published, '%Y-%m-%dT%H:%M:%SZ'))
+		tweet.put()
 
 
 def next(request, tweet_id):
