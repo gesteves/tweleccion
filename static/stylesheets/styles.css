@@ -26,14 +26,14 @@ html {
 h1 {
 	font-size:24px;
 	line-height:1;
-	width:481px;
+	width:335px;
 	height:48px;
 	margin:12px 0;
 }
 
 h1 a{
 	display:block;
-	width:481px;
+	width:335px;
 	height:48px;
 	text-indent:-10000px;
 	background:url('/static/images/logo.png') top left no-repeat;
