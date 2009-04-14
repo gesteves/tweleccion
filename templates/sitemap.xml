@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
-      <loc>http://www.tweleccion.com/</loc>
+      <loc>http://www.venetuits.com/</loc>
       <lastmod>{{ tweet.published|date:"Y-m-d" }}</lastmod>
 	  <changefreq>Hourly</changefreq>
    </url>
