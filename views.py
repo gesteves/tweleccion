@@ -14,9 +14,9 @@ import re
 def fetch_tweets(request):
 	latest = Tweet.last()
 	if latest is None:
-		url = "http://search.twitter.com/search.atom?q=%2315f&rpp=100"
+		url = "http://search.twitter.com/search.atom?q=+venezuela+OR+geocode%3A10.49605%2C-66.898277%2C700km&rpp=100"
 	else:
-		url = "http://search.twitter.com/search.atom?q=%2315f&rpp=100&since_id=" + str(latest.tweet_id)
+		url = "http://search.twitter.com/search.atom?q=+venezuela+OR+geocode%3A10.49605%2C-66.898277%2C700km&rpp=100&since_id=" + str(latest.tweet_id)
 	fetch_xml(url)
 	return HttpResponse("OK")
 
